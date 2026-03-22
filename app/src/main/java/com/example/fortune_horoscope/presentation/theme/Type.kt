@@ -1,4 +1,4 @@
-package com.example.fortune_horoscope.ui.theme
+package com.example.fortune_horoscope.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.example.fortune_horoscope.ui.theme
+package com.example.fortune_horoscope.presentation.theme
 
 import android.app.Activity
 import android.os.Build
@@ -12,15 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Indigo,
+    secondary = Lemon,
+    tertiary = Blue
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Lemon,
+    secondary = Blue,
+    tertiary = Aqua
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
