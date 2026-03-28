@@ -7,18 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.example.fortune_horoscope.R
-import com.example.fortune_horoscope.presentation.theme.Aqua
-import com.example.fortune_horoscope.presentation.theme.Gold
-import com.example.fortune_horoscope.presentation.theme.Indigo
+import com.example.fortune_horoscope.presentation.theme.Cinzel
 import com.example.fortune_horoscope.presentation.theme.Magenta
 
 @Composable
 fun Title(title: String, modifier: Modifier = Modifier) {
     Text(
-        text = title,
+        text = title.uppercase(),
         style = MaterialTheme.typography.headlineLarge,
+        fontFamily = Cinzel,
         fontWeight = FontWeight.Bold,
+        letterSpacing = 4.sp,
         modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
         color = Magenta
     )

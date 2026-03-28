@@ -5,8 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.fortune_horoscope.presentation.theme.FortunehoroscopeTheme
-import com.example.fortune_horoscope.presentation.ui.screens.DashboardScreenPreview
-import com.example.fortune_horoscope.presentation.ui.screens.RelaxPreview
+import com.example.fortune_horoscope.presentation.ui.screens.ArtPoster.PosterSigns
+import com.example.fortune_horoscope.presentation.ui.screens.Home.HomeScreen
+import com.example.fortune_horoscope.presentation.ui.screens.Login.LoginScreen
+import com.example.fortune_horoscope.presentation.ui.screens.Registration.RegistrationScreen
+import com.example.fortune_horoscope.presentation.ui.screens.Relax.RelaxPreview
+import com.example.fortune_horoscope.presentation.ui.screens.ZodiacDetails.DashboardScreenPreview
+import com.example.fortune_horoscope.presentation.ui.screens.ZodiacDetails.ZodiacDetail
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,8 +19,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FortunehoroscopeTheme {
-                //DashboardScreenPreview()
-                RelaxPreview()
+                //ZodiacDetail()
+                //PosterSigns()
+                //HomeScreen()
+                //RegistrationScreen()
+                //LoginScreen()
             }
         }
     }
