@@ -1,4 +1,4 @@
-package com.example.fortune_horoscope.ui.theme
+package com.example.fortune_horoscope.presentation.theme
 
 import android.app.Activity
 import android.os.Build
@@ -10,17 +10,41 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import com.example.fortune_horoscope.R
+
+
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+val Cinzel= FontFamily(Font(R.font.cinzel_bold))
+
+val LoraFont = FontFamily(
+    Font(googleFont = GoogleFont("Lora"), fontProvider = provider, weight = FontWeight.Normal),
+    Font(googleFont = GoogleFont("Lora"), fontProvider = provider, weight = FontWeight.W900)
+)
+
+val PlayfairFont = FontFamily(
+    Font(googleFont = GoogleFont("Playfair Display"), fontProvider = provider, weight = FontWeight.Black)
+)
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Indigo,
+    secondary = Lemon,
+    tertiary = Blue
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Lemon,
+    secondary = Blue,
+    tertiary = Aqua
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
