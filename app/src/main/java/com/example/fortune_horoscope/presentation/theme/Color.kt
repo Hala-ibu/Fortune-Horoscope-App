@@ -18,6 +18,8 @@ val StarGold = Color(0xFFFFD700)
 
 val TaurusGreen = Color(0xFF4F6652)
 val EarthSand = Color(0xFFD6AD8D)
+val EarhSand = Color(0xFFD6AD8D)
+
 
 val DividerGray = Color(0xFF79747E)
 val GlassWhite = Color(0x2AFFFFFF)
