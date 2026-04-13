@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,7 @@ import com.example.fortune_horoscope.presentation.ui.components.InfoSection
 import com.example.fortune_horoscope.presentation.ui.components.Title
 import com.example.fortune_horoscope.presentation.ui.components.ZodiacTabButton
 import com.example.fortune_horoscope.presentation.ui.screens.ZodiacDetails.component.ZodiacCard
+import com.example.fortune_horoscope.presentation.ui.screens.ZodiacDetails.component.infotoshow
 import com.example.fortune_horoscope.presentation.ui.util.InfoRowData
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -84,11 +86,11 @@ fun ZodiacDetail() {
         Spacer(modifier = Modifier.height(20.dp))
 
         if (activeZodiac == "Facts") {
-            InfoSection(title="Facts:",
-                rows= Facts.map{InfoRowData(it, imageVector = Icons.Default.Star)})
+            infotoshow(title="Facts:",
+                Facts)
         } else {
-            InfoSection(title="Description:",
-                rows= Description.map{InfoRowData(it, imageVector = Icons.Default.FavoriteBorder)})
+            infotoshow(title="Description:",
+                Description)
         }
         }
     }

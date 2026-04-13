@@ -144,3 +144,4 @@ fun RegistrationScreen(modifier: Modifier = Modifier) {
 fun RegistrationScreenPreview() {
     RegistrationScreen()
 }
+
