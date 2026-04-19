@@ -38,6 +38,7 @@ data class ReadingData(val title: String, val imageRes: Int)
 @Composable
 fun ExploreScreen() {
     var searchQuery by rememberSaveable { mutableStateOf("") }
+    //hi is working now git hub?
     var selectedCategory by rememberSaveable { mutableStateOf("All") }
 
     val allHoroscopes = remember {
