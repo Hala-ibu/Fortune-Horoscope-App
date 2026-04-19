@@ -1,4 +1,4 @@
-package com.example.fortune_horoscope.presentation.util
+package com.example.fortune_horoscope.presentation.ui.util
 
 import android.util.Patterns
 

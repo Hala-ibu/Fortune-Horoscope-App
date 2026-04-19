@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Fortune-horoscope</string>
+    <string name="player_avatar">avatar</string>
+    <string name="app_title">hello\n</string>
+    <string name="today_quests">todays quest</string>
+    <string name="achievements">achivments</string>
+    <string name="quick_stats">stats\n</string>
+    <string name="don_not_have_account">do not have account\n</string>
+    <string name="register">register</string>
+    <string name="welcome_back">welcome back</string>
+    <string name="login_subtitle">login subtitle</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">login</string>
+    <string name="continue_with_google">continue with google</string>
+    <string name="create_account">create account</string>
+    <string name="create_acc_subtitle">create account subtitle</string>
+    <string name="Home">Home</string>
+    <string name="HabitTracker">Habit Tracker</string>
+    <string name="ArtPoster">Art Poster</string>
+    <string name="ZodiacDetails">Zodiac Details</string>
+    <string name="Explore">Explore\n</string>
 </resources>

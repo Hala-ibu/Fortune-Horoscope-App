@@ -1,11 +1,11 @@
 package com.example.fortune_horoscope.presentation.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
@@ -17,12 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.example.fortune_horoscope.R
 import com.example.fortune_horoscope.presentation.theme.DividerGray
-import com.example.fortune_horoscope.presentation.theme.Indigo
 import com.example.fortune_horoscope.presentation.theme.LightPurpleContainer
-import com.example.fortune_horoscope.presentation.theme.Magenta
 import com.example.fortune_horoscope.presentation.theme.MysticPurple
 import com.example.fortune_horoscope.presentation.theme.StarGold
 
@@ -34,6 +31,8 @@ fun PasswordTextField(
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorMessage: String? = null,
+    onPasswordVisibilityChange: () -> Unit,
+    passwordVisible: Boolean,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
@@ -52,9 +51,11 @@ fun PasswordTextField(
             },
             trailingIcon = {
                 Text(
-                    text = "Show",
+                    text = if (passwordVisible) "Hide" else "Show",
                     color = StarGold,
-                    modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_large))
+                    modifier = Modifier
+                        .clickable { onPasswordVisibilityChange() }
+                        .padding(end = dimensionResource(R.dimen.padding_large))
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(

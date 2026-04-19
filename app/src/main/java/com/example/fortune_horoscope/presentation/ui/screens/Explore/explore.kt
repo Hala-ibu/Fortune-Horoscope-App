@@ -1,128 +1,87 @@
 package com.example.fortune_horoscope.presentation.ui.screens.Explorer
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.fortune_horoscope.presentation.theme.*
+import com.example.fortune_horoscope.R
+import com.example.fortune_horoscope.presentation.theme.Indigo
+import com.example.fortune_horoscope.presentation.theme.LightPurpleContainer
+import com.example.fortune_horoscope.presentation.theme.Magenta
+import com.example.fortune_horoscope.presentation.theme.MysticPurple
+import com.example.fortune_horoscope.presentation.theme.backgroundGradient
+import com.example.fortune_horoscope.presentation.ui.screens.Explore.components.*
 
-data class ExplorerItem(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val icon: androidx.compose.ui.graphics.vector.ImageVector
-)
+data class ZodiacData(val sign: String, val system: String, val color: Color, val iconRes: Int)
+data class ReadingData(val title: String, val imageRes: Int)
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview()
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExplorerScreen() {
-    val explorerItems = listOf(
-        ExplorerItem(1, "Daily Reading", "Your stars for today.", Icons.Default.AutoAwesome),
-        ExplorerItem(2, "Zodiac Profile", "Personality insights.", Icons.Default.AccountCircle),
-        ExplorerItem(3, "Moon Phase", "Lunar cycle energy.", Icons.Default.NightsStay),
-        ExplorerItem(4, "Compatibility", "Check your matches.", Icons.Default.Favorite),
-        ExplorerItem(5, "Crystal Guide", "Energy and healing.", Icons.Default.Diamond),
-        ExplorerItem(6, "Tarot Deck", "Reveal the hidden.", Icons.Default.Style)
-    )
+fun ExploreScreen() {
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    var selectedCategory by rememberSaveable { mutableStateOf("All") }
 
-    Box(
+    val allHoroscopes = remember {
+        listOf(
+            ZodiacData("THULA (BALANCE)", "Vedic", Magenta, R.drawable.quests),
+            ZodiacData("PISCES", "Western", MysticPurple, R.drawable.achievement),
+            ZodiacData("FUN READING", "fun", Color.Cyan, R.drawable.taurusstar)
+        )
+    }
+    val filteredHoroscopes by remember(searchQuery, selectedCategory) {
+        derivedStateOf {
+            allHoroscopes.filter { horoscope ->
+                val matchesSearch = horoscope.sign.contains(searchQuery, ignoreCase = true)
+                matchesSearch
+            }
+        }
+    }
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient)
     ) {
-        // Using LazyVerticalStaggeredGrid from Lab 6
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Fixed(2),
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(24.dp),
-            verticalItemSpacing = 16.dp,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Header inside item { } block as per Lab 6 Part E
+        item { FortuneTopBar(searchQuery) { searchQuery = it } }
+        item { SystemCategoryRow(selectedCategory) { selectedCategory = it } }
+
+        if (filteredHoroscopes.isEmpty()) {
             item {
-                Column(modifier = Modifier.padding(bottom = 16.dp)) {
-                    Text(
-                        text = "EXPLORER",
-                        fontFamily = Cinzel,
-                        fontSize = 32.sp,
-                        color = StarGold,
-                        letterSpacing = 4.sp
-                    )
-                    Text(
-                        text = "Discover the unseen",
-                        color = Color.White.copy(alpha = 0.6f),
-                        fontSize = 14.sp
-                    )
-                }
+                EmptySearchState()
             }
-
-            // Grid items as per Lab 6 Part F
-            items(explorerItems) { item ->
-                ExplorerIconCard(item)
+        } else {
+            stickyHeader {
+                FortuneSectionHeader("Today's Horoscopes")
             }
+            item { ZodiacCardRow(filteredHoroscopes) }
         }
-    }
-}
 
-@Composable
-fun ExplorerIconCard(item: ExplorerItem) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = GlassWhite),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            // Icon replaces Image from your old design
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(12.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = null,
-                    tint = StarGold,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+        item { FortuneTellingBanner() }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = item.title,
-                color = Color.White,
-                fontFamily = Cinzel,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-
-            Text(
-                text = item.description,
-                color = Color.White.copy(alpha = 0.6f),
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                modifier = Modifier.padding(top = 4.dp)
-            )
+        stickyHeader {
+            FortuneSectionHeader("Spiritual Guidance")
         }
+        item { DailyReadingCard() }
+
+        item { Spacer(modifier = Modifier.height(80.dp)) }
     }
 }
