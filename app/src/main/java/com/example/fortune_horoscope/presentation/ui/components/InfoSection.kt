@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.fortune_horoscope.presentation.theme.StarGold
 import com.example.fortune_horoscope.presentation.theme.GlassWhite
-import com.example.fortune_horoscope.presentation.theme.TaurusGreen
 import com.example.fortune_horoscope.presentation.ui.util.InfoRowData
 
 @Composable

@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fortune_horoscope.presentation.theme.Aqua
+import com.example.fortune_horoscope.presentation.theme.backgroundGradient
 import com.example.fortune_horoscope.presentation.ui.components.InfoSection
 import com.example.fortune_horoscope.presentation.ui.components.Title
 import com.example.fortune_horoscope.presentation.ui.util.InfoRowData
@@ -34,7 +34,9 @@ fun RelaxPreview() {
 @Composable
 fun Relax(){
     Box(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).background(Aqua),
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).background(
+            backgroundGradient
+        ),
         contentAlignment = Alignment.Center
     )
     {
