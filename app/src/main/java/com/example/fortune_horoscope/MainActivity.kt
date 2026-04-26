@@ -16,7 +16,9 @@ import com.example.fortune_horoscope.presentation.navigation.BottomBarNavigation
 import com.example.fortune_horoscope.presentation.navigation.NavGraph
 import com.example.fortune_horoscope.presentation.navigation.Screen
 import com.example.fortune_horoscope.presentation.theme.FortunehoroscopeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
