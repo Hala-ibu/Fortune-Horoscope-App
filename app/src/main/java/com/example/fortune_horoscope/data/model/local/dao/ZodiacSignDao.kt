@@ -18,6 +18,9 @@ interface ZodiacSignDao {
     @Query("SELECT COUNT(*) FROM zodiac_signs")
     suspend fun count(): Int
 
+    @Query("SELECT * FROM zodiac_signs ORDER BY id LIMIT 1")
+    suspend fun getFirst(): ZodiacSignEntity?
+
     @Upsert
     suspend fun upsert(sign: ZodiacSignEntity): Long
 

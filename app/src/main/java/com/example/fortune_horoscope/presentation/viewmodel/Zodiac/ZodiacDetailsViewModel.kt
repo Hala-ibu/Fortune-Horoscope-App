@@ -1,8 +1,8 @@
-package com.example.fortune_horoscope.presentation.viewmodel.home
+package com.example.fortune_horoscope.presentation.viewmodel.Zodiac
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fortune_horoscope.data.model.Horoscope
+import com.example.fortune_horoscope.data.model.ZodiacSign
 import com.example.fortune_horoscope.data.repository.FortuneRepository
 import com.example.fortune_horoscope.presentation.viewmodel.ScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class ZodiacDetailsViewModel @Inject constructor(
     private val repository: FortuneRepository
 ) : ViewModel() {
 
@@ -21,9 +21,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    val uiState: StateFlow<ScreenUiState<List<Horoscope>>> = repository.observeHoroscopes()
-        .map { ScreenUiState.Success(it) as ScreenUiState<List<Horoscope>> }
-        .catch { emit(ScreenUiState.Error(it.message ?: "Unable to load horoscopes")) }
+    val uiState: StateFlow<ScreenUiState<ZodiacSign?>> = repository.observeZodiacSigns()
+        .map { signs -> ScreenUiState.Success(signs.firstOrNull()) as ScreenUiState<ZodiacSign?> }
+        .catch { emit(ScreenUiState.Error(it.message ?: "Unable to load zodiac details")) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

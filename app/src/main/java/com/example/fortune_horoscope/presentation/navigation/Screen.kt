@@ -13,5 +13,4 @@ sealed class Screen(val route: String) {
     data object HabitTracker : Screen("HabitTracker")
     data object Explore : Screen("Explore")
     data object ArtPoster :Screen("ArtPoster")
-    data object ZodiacDetails : Screen("ZodiacDetails/{sign}/{date}")
-}
+    data object ZodiacDetails : Screen("ZodiacDetails")}

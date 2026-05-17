@@ -15,6 +15,12 @@ interface PosterDao {
     @Query("SELECT * FROM posters WHERE zodiacSignId = :zodiacSignId")
     fun observeForSign(zodiacSignId: Long): Flow<List<PosterEntity>>
 
+    @Query("SELECT COUNT(*) FROM posters")
+    suspend fun count(): Int
+
+    @Upsert
+    suspend fun upsertAll(posters: List<PosterEntity>)
+
     @Upsert
     suspend fun upsert(poster: PosterEntity): Long
 

@@ -13,12 +13,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,10 +37,12 @@ import com.example.fortune_horoscope.presentation.ui.components.GoogleIcon
 import com.example.fortune_horoscope.presentation.ui.components.PasswordTextField
 import com.example.fortune_horoscope.presentation.ui.components.SocialSignInButton
 import com.example.fortune_horoscope.presentation.ui.util.AuthValidators
+import com.example.fortune_horoscope.presentation.viewmodel.auth.login.LoginUiState
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
+    uiState: LoginUiState,
+    onLoginClick: (String, String) -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
     var email by rememberSaveable { mutableStateOf("") }
@@ -47,11 +51,12 @@ fun LoginScreen(
 
     val emailError = AuthValidators.validateEmail(email)
     val passwordError = AuthValidators.validatePassword(password)
-
+    val isLoading = uiState is LoginUiState.Loading
     val isLoginEnabled = emailError == null &&
             passwordError == null &&
             email.isNotBlank() &&
-            password.isNotBlank()
+            password.isNotBlank() &&
+            !isLoading
 
     LoginScreenContent(
         email = email,
@@ -59,13 +64,12 @@ fun LoginScreen(
         passwordVisible = passwordVisible,
         emailError = emailError,
         passwordError = passwordError,
+        uiState = uiState,
         isLoginEnabled = isLoginEnabled,
         onEmailChange = { email = it },
         onPasswordChange = { password = it },
-        onPasswordVisibilityChange = {
-            passwordVisible = !passwordVisible
-        },
-        onLoginClick = onLoginSuccess,
+        onPasswordVisibilityChange = { passwordVisible = !passwordVisible },
+        onLoginClick = { onLoginClick(email, password) },
         onRegisterClick = onNavigateToRegister,
         onGoogleClick = { },
         onAppleClick = { }
@@ -78,6 +82,7 @@ private fun LoginScreenContent(
     password: String,
     emailError: String?,
     passwordError: String?,
+    uiState: LoginUiState,
     isLoginEnabled: Boolean,
     passwordVisible: Boolean,
     onPasswordVisibilityChange: () -> Unit,
@@ -111,12 +116,7 @@ private fun LoginScreenContent(
                 value = email,
                 onValueChange = onEmailChange,
                 label = stringResource(R.string.email),
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Email,
-                        contentDescription = null
-                    )
-                },
+                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null) },
                 keyboardType = KeyboardType.Email,
                 isError = emailError != null,
                 errorMessage = emailError
@@ -134,8 +134,13 @@ private fun LoginScreenContent(
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
+            if (uiState is LoginUiState.Error) {
+                Text(text = uiState.message, color = Color.Red)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+            }
+
             AuthPrimaryButton(
-                text = stringResource(R.string.login),
+                text = if (uiState is LoginUiState.Loading) "Logging in..." else stringResource(R.string.login),
                 onClick = onLoginClick,
                 enabled = isLoginEnabled
             )
@@ -170,26 +175,9 @@ private fun LoginScreenContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
-    val emailError = AuthValidators.validateEmail(email)
-    val passwordError = AuthValidators.validatePassword(password)
-
-    LoginScreenContent(
-        email = email,
-        password = password,
-        passwordVisible = passwordVisible,
-        emailError = emailError,
-        passwordError = passwordError,
-        isLoginEnabled = true,
-        onEmailChange = { email = it },
-        onPasswordChange = { password = it },
-        onPasswordVisibilityChange = { passwordVisible = !passwordVisible },
-        onLoginClick = { },
-        onRegisterClick = { },
-        onGoogleClick = { },
-        onAppleClick = { }
+    LoginScreen(
+        uiState = LoginUiState.Init,
+        onLoginClick = { _, _ -> },
+        onNavigateToRegister = { }
     )
 }

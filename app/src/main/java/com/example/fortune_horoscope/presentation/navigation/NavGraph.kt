@@ -3,11 +3,12 @@ package com.example.fortune_horoscope.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.fortune_horoscope.presentation.ui.screens.ArtPoster.PosterSigns
 import com.example.fortune_horoscope.presentation.ui.screens.Explorer.ExploreScreen
 import com.example.fortune_horoscope.presentation.ui.screens.HabbitTracker.RitualsScreen
@@ -15,7 +16,15 @@ import com.example.fortune_horoscope.presentation.ui.screens.Home.HomeScreen
 import com.example.fortune_horoscope.presentation.ui.screens.Login.LoginScreen
 import com.example.fortune_horoscope.presentation.ui.screens.Registration.RegistrationScreen
 import com.example.fortune_horoscope.presentation.ui.screens.ZodiacDetails.ZodiacDetailsScreen
-
+import com.example.fortune_horoscope.presentation.viewmodel.auth.Registration.RegistrationNavigationEvent
+import com.example.fortune_horoscope.presentation.viewmodel.auth.Registration.RegistrationViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.auth.login.LoginNavigationEvent
+import com.example.fortune_horoscope.presentation.viewmodel.auth.login.LoginViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.explore.ExploreViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.habit.HabitTrackerViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.home.HomeViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.poster.PosterViewModel
+import com.example.fortune_horoscope.presentation.viewmodel.Zodiac.ZodiacDetailsViewModel
 
 @Composable
 fun NavGraph(
@@ -29,52 +38,90 @@ fun NavGraph(
         modifier = modifier
     ) {
         composable(route = Screen.Registration.route) {
-            RegistrationScreen(
-                onNavigateToLogin = {
-                    navController.navigate(Screen.Login.route)
-                },
-                onNavigateToHome = {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Registration.route) { inclusive = true }
+            val viewModel: RegistrationViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+
+            LaunchedEffect(viewModel) {
+                viewModel.navigationEvent.collect { event ->
+                    when (event) {
+                        RegistrationNavigationEvent.NavigateHome -> navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Registration.route) { inclusive = true }
+                        }
+                        RegistrationNavigationEvent.NavigateLogin -> navController.navigate(Screen.Login.route)
                     }
                 }
+            }
+
+            RegistrationScreen(
+                uiState = uiState,
+                onRegisterClick = viewModel::onRegisterClick,
+                onNavigateToLogin = { navController.navigate(Screen.Login.route) }
             )
         }
+
         composable(route = Screen.Login.route) {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+            val viewModel: LoginViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+
+            LaunchedEffect(viewModel) {
+                viewModel.navigationEvent.collect { event ->
+                    when (event) {
+                        LoginNavigationEvent.Navigate -> navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                        LoginNavigationEvent.NavigateBack -> navController.popBackStack()
                     }
-                },
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Registration.route)
                 }
+            }
+
+            LoginScreen(
+                uiState = uiState,
+                onLoginClick = viewModel::onLoginClick,
+                onNavigateToRegister = { navController.navigate(Screen.Registration.route) }
             )
         }
 
         composable(route = Screen.Home.route) {
+            val viewModel: HomeViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
             HomeScreen(
-                onExploreClick = {
-                    navController.navigate(Screen.Explore.route)
-                }
+                uiState = uiState,
+                onExploreClick = { navController.navigate(Screen.Explore.route) }
             )
         }
 
         composable(route = Screen.Explore.route) {
-            ExploreScreen()
+            val viewModel: ExploreViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            ExploreScreen(uiState = uiState)
         }
 
         composable(route = Screen.ZodiacDetails.route) {
-            ZodiacDetailsScreen()
+            val viewModel: ZodiacDetailsViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            ZodiacDetailsScreen(uiState = uiState)
         }
 
         composable(route = Screen.HabitTracker.route) {
-            RitualsScreen()
+            val viewModel: HabitTrackerViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            RitualsScreen(
+                uiState = uiState,
+                onAddHabit = { title, category -> viewModel.addHabit(title, category) },
+                onToggleComplete = { habit -> viewModel.toggleComplete(habit) },
+                onDeleteHabit = { habit -> viewModel.deleteHabit(habit) }
+            )
         }
 
         composable(route = Screen.ArtPoster.route) {
-            PosterSigns()
+            val viewModel: PosterViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            PosterSigns(
+                uiState = uiState,
+                onAddPoster = { title, palette -> viewModel.addPoster(title, palette) },
+                onToggleDownloaded = { poster -> viewModel.toggleDownloaded(poster) },
+                onDeletePoster = { poster -> viewModel.deletePoster(poster) }
+            )
         }
     }
 }

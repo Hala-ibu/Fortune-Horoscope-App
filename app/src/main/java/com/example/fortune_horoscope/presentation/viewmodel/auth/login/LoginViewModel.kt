@@ -1,21 +1,20 @@
 package com.example.fortune_horoscope.presentation.viewmodel.auth.login
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fortune_horoscope.data.repository.FortuneRepository
+import com.example.fortune_horoscope.data.repository.user.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.example.fortune_horoscope.domain.repository.FortuneRepository
+import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.onSuccess
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: FortuneRepository
+    private val repository: FortuneRepository,
+    private val sessionRepository: SessionRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Init)
     val uiState: StateFlow<LoginUiState> = _uiState
@@ -29,7 +28,8 @@ class LoginViewModel @Inject constructor(
 
             repository.seedStarterData()
             repository.login(email, password)
-                .onSuccess {
+                .onSuccess { user ->
+                    sessionRepository.saveSession(user.id) // Save database session ID dynamically
                     _uiState.value = LoginUiState.Success(isLoggedIn = true)
                     _navigationEvent.send(LoginNavigationEvent.Navigate)
                 }
