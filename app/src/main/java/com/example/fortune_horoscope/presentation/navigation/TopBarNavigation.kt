@@ -16,7 +16,13 @@ fun AppTopBar(
     onBackClick: () -> Unit
 ) {
     val topLevelRoutes = setOf(
-        Screen.Home.route)
+        Screen.Home.route,
+        Screen.Fortune.route,
+        Screen.Explore.route,
+        Screen.HabitTracker.route,
+        Screen.ArtPoster.route,
+        Screen.ZodiacDetails.route
+    )
 
     val isTopLevel = currentRoute in topLevelRoutes
 
@@ -26,6 +32,7 @@ fun AppTopBar(
                 text = when (currentRoute) {
                     Screen.Home.route -> "Home"
                     Screen.HabitTracker.route -> "Habit Tracker"
+                    Screen.Fortune.route -> "Fortune & Horoscope"
                     Screen.Explore.route -> "Explore"
                     Screen.ArtPoster.route -> "Art Gallery"
                     else -> "Details"
