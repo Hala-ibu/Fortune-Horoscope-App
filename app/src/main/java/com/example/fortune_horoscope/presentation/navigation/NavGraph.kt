@@ -26,6 +26,8 @@ import com.example.fortune_horoscope.presentation.viewmodel.home.HomeViewModel
 import com.example.fortune_horoscope.presentation.viewmodel.poster.PosterViewModel
 import com.example.fortune_horoscope.presentation.viewmodel.Zodiac.ZodiacDetailsViewModel
 import com.example.fortune_horoscope.presentation.ui.screens.Fortune.FortuneHoroscopeScreen
+import com.example.fortune_horoscope.presentation.viewmodel.fortune.FortuneHoroscopeViewModel
+
 @Composable
 fun NavGraph(
     navController: NavHostController,
