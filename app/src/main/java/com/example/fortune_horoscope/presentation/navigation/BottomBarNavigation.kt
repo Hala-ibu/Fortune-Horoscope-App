@@ -43,6 +43,11 @@ object BottomBarNavigationItems {
             route = Screen.Home.route
         ),
         BottomBarNavigationItem(
+            titleId = R.string.Fortune,
+            iconRes = R.drawable.hourglass,
+            route = Screen.Fortune.route
+        ),
+        BottomBarNavigationItem(
             titleId = R.string.Explore,
             iconRes = R.drawable.google_icon,
             route = Screen.Explore.route

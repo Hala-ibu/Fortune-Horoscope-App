@@ -1,7 +1,8 @@
 package com.example.fortune_horoscope.presentation.viewmodel.auth.login
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fortune_horoscope.data.repository.FortuneRepository
+import com.example.fortune_horoscope.data.remote.firebase.AuthRepository
 import com.example.fortune_horoscope.data.repository.user.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: FortuneRepository,
+    private val authRepository: AuthRepository,
     private val sessionRepository: SessionRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Init)
@@ -26,10 +27,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = LoginUiState.Loading
 
-            repository.seedStarterData()
-            repository.login(email, password)
-                .onSuccess { user ->
-                    sessionRepository.saveSession(user.id) // Save database session ID dynamically
+            authRepository.signIn(email, password)
+                .onSuccess {
                     _uiState.value = LoginUiState.Success(isLoggedIn = true)
                     _navigationEvent.send(LoginNavigationEvent.Navigate)
                 }

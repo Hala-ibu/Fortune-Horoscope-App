@@ -1,5 +1,6 @@
 package com.example.fortune_horoscope.presentation.viewmodel.home
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fortune_horoscope.data.model.Horoscope

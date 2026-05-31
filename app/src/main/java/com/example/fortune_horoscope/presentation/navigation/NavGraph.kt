@@ -25,7 +25,7 @@ import com.example.fortune_horoscope.presentation.viewmodel.habit.HabitTrackerVi
 import com.example.fortune_horoscope.presentation.viewmodel.home.HomeViewModel
 import com.example.fortune_horoscope.presentation.viewmodel.poster.PosterViewModel
 import com.example.fortune_horoscope.presentation.viewmodel.Zodiac.ZodiacDetailsViewModel
-
+import com.example.fortune_horoscope.presentation.ui.screens.Fortune.FortuneHoroscopeScreen
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -94,6 +94,15 @@ fun NavGraph(
             val viewModel: ExploreViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsState()
             ExploreScreen(uiState = uiState)
+        }
+        composable(route = Screen.Fortune.route) {
+            val viewModel: FortuneHoroscopeViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            FortuneHoroscopeScreen(
+                uiState = uiState,
+                onDrawFortune = viewModel::drawFortune,
+                onRefreshHoroscopes = viewModel::refreshHoroscopes
+            )
         }
 
         composable(route = Screen.ZodiacDetails.route) {

@@ -18,6 +18,7 @@
     <string name="Home">Home</string>
     <string name="HabitTracker">Habit Tracker</string>
     <string name="ArtPoster">Art Poster</string>
+    <string name="Fortune">Fortune</string>
     <string name="ZodiacDetails">Zodiac Details</string>
     <string name="Explore">Explore\n</string>
 </resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "399002208041",
+    "project_id": "starstruck-f257e",
+    "storage_bucket": "starstruck-f257e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399002208041:android:12bb8cbb498cc0f0ef5938",
+        "android_client_info": {
+          "package_name": "com.example.fortune_horoscope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDka6ALSyZ0VHRH7t9-cRlxsRa7USliiKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
